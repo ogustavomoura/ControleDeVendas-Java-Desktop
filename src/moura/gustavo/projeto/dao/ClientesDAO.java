@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import moura.gustavo.projeto.jdbc.ConnectionFactory;
 import moura.gustavo.projeto.model.Clientes;
+import moura.gustavo.projeto.model.WebServiceCep;
 
 /**
  *
@@ -206,7 +207,26 @@ public class ClientesDAO {
             JOptionPane.showMessageDialog(null, "Cliente não encontrado");
             return null;
         }
-        
+           
     }
+        
+        public Clientes buscaCep(String cep) {
+       
+        WebServiceCep webServiceCep = WebServiceCep.searchCep(cep);
+        Clientes obj = new Clientes();
+
+        if (webServiceCep.wasSuccessful()) {
+            obj.setEndereco(webServiceCep.getLogradouroFull());
+            obj.setCidade(webServiceCep.getCidade());
+            obj.setBairro(webServiceCep.getBairro());
+            obj.setUf(webServiceCep.getUf());
+            return obj;
+        } else {
+            JOptionPane.showMessageDialog(null, "Erro numero: " + webServiceCep.getResulCode());
+            JOptionPane.showMessageDialog(null, "Descrição do erro: " + webServiceCep.getResultText());
+            return null;
+        }
+    }
+        
     
 }

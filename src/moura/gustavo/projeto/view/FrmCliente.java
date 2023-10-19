@@ -4,6 +4,7 @@
  */
 package moura.gustavo.projeto.view;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -215,6 +216,11 @@ public class FrmCliente extends javax.swing.JFrame {
         txtcep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtcepActionPerformed(evt);
+            }
+        });
+        txtcep.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtcepKeyPressed(evt);
             }
         });
 
@@ -867,6 +873,21 @@ public class FrmCliente extends javax.swing.JFrame {
             }
 
     }//GEN-LAST:event_btnpesquisarnome_dadosActionPerformed
+
+    private void txtcepKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcepKeyPressed
+        // Programação do keypress
+        
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) { 
+            Clientes obj =  new Clientes();
+            ClientesDAO dao = new ClientesDAO();
+            obj = dao.buscaCep(txtcep.getText());
+
+            txtendereco.setText(obj.getEndereco());
+            txtbairro.setText(obj.getBairro());
+            txtcidade.setText(obj.getCidade());
+            cbuf.setSelectedItem(obj.getUf());               
+        }
+    }//GEN-LAST:event_txtcepKeyPressed
 
     /**
      * @param args the command line arguments
